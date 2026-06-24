@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { authFetch } from "../../utils/authFetch";
 import Modal from "react-modal";
 import styles from "./AddProducts.module.css";
+import { useNavigate } from "react-router-dom";
 
 import { BACKEND_URL } from "../../config";
 
@@ -14,6 +15,7 @@ const AddProducts = () => {
   const [excelFile, setExcelFile] = useState(null);
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
 
@@ -85,7 +87,16 @@ const AddProducts = () => {
 
   return (
     <div className={styles["add-product-container"]}>
-      <h2 className={styles.title}>Add Product</h2>
+      <div className={styles["orders-header"]}>
+        <h2 className={styles.title}>Add Product</h2>
+
+        <button
+          className={styles.btnDashboard}
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles["form-group"]}>

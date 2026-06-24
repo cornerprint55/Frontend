@@ -120,18 +120,27 @@ const Expenses = () => {
       <div className="expense-header">
         <h2>Expenses</h2>
 
-        <button
-          className="btn-add-expense"
-          disabled={!!filteredResult}
-          title={
-            filteredResult
-              ? "Clear filter to add new expense"
-              : "Add new expense"
-          }
-          onClick={() => navigate("/expense/create")}
-        >
-          + Add Expense
-        </button>
+        <div>
+          <button
+            className="btn-add-expense"
+            disabled={!!filteredResult}
+            title={
+              filteredResult
+                ? "Clear filter to add new expense"
+                : "Add new expense"
+            }
+            onClick={() => navigate("/expense/create")}
+          >
+            + Add Expense
+          </button>
+
+          <button
+            className="btnDashboard"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            Dashboard
+          </button>
+        </div>
       </div>
 
       {/* 🔍 Search (only for ALL view) */}

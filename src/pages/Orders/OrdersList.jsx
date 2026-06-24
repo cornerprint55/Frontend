@@ -614,31 +614,33 @@ window.onload = function() {
                 </button>
               )}
 
-              <button
-                className={styles["btn-edit"]}
-                onClick={() =>
-                  navigate(`/orders/${o._id}/edit`, {
-                    replace: true,
-                    state: { from: "orders" },
-                  })
-                }
-              >
-                Edit
-              </button>
+              <div className={styles["order-action-two"]}>
+                <button
+                  className={styles["btn-edit"]}
+                  onClick={() =>
+                    navigate(`/orders/${o._id}/edit`, {
+                      replace: true,
+                      state: { from: "orders" },
+                    })
+                  }
+                >
+                  Edit
+                </button>
 
-              <button
-                className={styles["btn-print"]}
-                onClick={() => handlePrint(o)}
-              >
-                Print
-              </button>
+                <button
+                  className={styles["btn-print"]}
+                  onClick={() => handlePrint(o)}
+                >
+                  Print
+                </button>
 
-              <button
-                className={styles["btn-delete"]}
-                onClick={() => handleDelete(o)}
-              >
-                Delete
-              </button>
+                <button
+                  className={styles["btn-delete"]}
+                  onClick={() => handleDelete(o)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))

@@ -400,3 +400,39 @@ body {
 .change-pass-btn {
   margin-top: 0; /* remove old top margin */
 }
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: #1f2937;
+  letter-spacing: 0.3px;
+}
+
+/* ===============================
+   DASHBOARD BUTTON
+================================ */
+.btnDashboard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnDashboard:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}

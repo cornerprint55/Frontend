@@ -39,6 +39,8 @@ export default function WalkInCustomer() {
     navigate("/login", { replace: true });
   };
 
+  const role = localStorage.getItem("role");
+
   /* =====================
      Fetch products
   ===================== */
@@ -262,9 +264,20 @@ export default function WalkInCustomer() {
       <div className={styles.walkinHeader}>
         <h2>Walk-in Customer</h2>
 
-        <button className={styles.btnLogout} onClick={handleLogout}>
-          Logout
-        </button>
+        {role === "admin" && (
+          <button
+            className={styles.btnDashboard}
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            Dashboard
+          </button>
+        )}
+
+        {role === "worker" && (
+          <button className={styles.btnLogout} onClick={handleLogout}>
+            Logout
+          </button>
+        )}
       </div>
 
       {/* Search */}

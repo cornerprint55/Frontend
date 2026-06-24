@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import styles from "./CreateOrder.module.css";
 import SignaturePad from "../../components/SignaturePad";
 import { BACKEND_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateOrder() {
   /* =====================
@@ -33,7 +34,7 @@ export default function CreateOrder() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const [fullPaid, setFullPaid] = useState(true);
-
+  const [draftLoaded, setDraftLoaded] = useState(false);
   /* =====================
      Cart
   ===================== */
@@ -51,13 +52,53 @@ export default function CreateOrder() {
 
   const [paidAmount, setPaidAmount] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
+  const [showCancelModal, setShowCancelModal] = useState(false);
   /* =====================
      Initial Fetch
   ===================== */
+  // useEffect(() => {
+  //   fetchProducts();
+  //   fetchCustomers();
+  // }, []);
+
   useEffect(() => {
     fetchProducts();
     fetchCustomers();
+
+    const draft = localStorage.getItem("orderDraft");
+
+    if (draft) {
+      const data = JSON.parse(draft);
+
+      setSelectedCustomer(data.selectedCustomer ?? null);
+      setCustomerQuery(data.customerQuery ?? "");
+      setFilteredCustomers(data.filteredCustomers ?? []);
+
+      setProductQuery(data.productQuery ?? "");
+      setFilteredProducts(data.filteredProducts ?? []);
+
+      setCart(data.cart ?? []);
+
+      setWalletBalance(data.walletBalance ?? 0);
+      setWalletUse(data.walletUse ?? 0);
+      setUseMaxWallet(data.useMaxWallet ?? false);
+
+      setApplyGST(data.applyGST ?? true);
+
+      setSubtotalPaise(data.subtotalPaise ?? 0);
+      setCalculatedTotalPaise(data.calculatedTotalPaise ?? 0);
+      setGrandTotalPaise(data.grandTotalPaise ?? 0);
+      setGrandTotalInput(data.grandTotalInput ?? "0.00");
+      setManualTotal(data.manualTotal ?? false);
+
+      setPaidAmount(data.paidAmount ?? "");
+      setFullPaid(data.fullPaid ?? true);
+
+      setSignature(data.signature ?? null);
+    }
+
+    setDraftLoaded(true);
   }, []);
 
   useEffect(() => {
@@ -82,6 +123,68 @@ export default function CreateOrder() {
     }
   }, [fullPaid, grandTotalPaise, walletUse]);
 
+  useEffect(() => {
+    if (!draftLoaded) return;
+
+    localStorage.setItem(
+      "orderDraft",
+      JSON.stringify({
+        selectedCustomer,
+        customerQuery,
+        filteredCustomers,
+
+        productQuery,
+        filteredProducts,
+
+        cart,
+
+        walletBalance,
+        walletUse,
+        useMaxWallet,
+
+        applyGST,
+
+        subtotalPaise,
+        calculatedTotalPaise,
+        grandTotalPaise,
+        grandTotalInput,
+        manualTotal,
+
+        paidAmount,
+        fullPaid,
+
+        signature,
+      }),
+    );
+  }, [
+    draftLoaded,
+
+    selectedCustomer,
+    customerQuery,
+    filteredCustomers,
+
+    productQuery,
+    filteredProducts,
+
+    cart,
+
+    walletBalance,
+    walletUse,
+    useMaxWallet,
+
+    applyGST,
+
+    subtotalPaise,
+    calculatedTotalPaise,
+    grandTotalPaise,
+    grandTotalInput,
+    manualTotal,
+
+    paidAmount,
+    fullPaid,
+
+    signature,
+  ]);
   /* ===================== AUTO WALLET ===================== */
 
   const fetchProducts = async () => {
@@ -232,6 +335,11 @@ export default function CreateOrder() {
     // Wallet
     setWalletUse(0);
     setWalletBalance(0);
+    setUseMaxWallet(false);
+
+    // Signature
+    setSignature(null);
+    setShowSignModal(false);
 
     // Totals
     setSubtotalPaise(0);
@@ -244,8 +352,10 @@ export default function CreateOrder() {
     setPaidAmount("");
     setFullPaid(true);
 
-    // GST (optional reset)
+    // GST
     setApplyGST(true);
+
+    localStorage.removeItem("orderDraft");
   };
 
   /* =====================
@@ -294,6 +404,7 @@ export default function CreateOrder() {
       if (!res.ok) throw new Error(data.msg || "Order failed");
 
       toast.success("Order created");
+
       resetForm();
 
       fetchProducts();
@@ -308,6 +419,12 @@ export default function CreateOrder() {
   const remainingWallet = walletBalance - walletUse;
   const maxWalletUsable = Math.min(walletBalance, grandTotalPaise / 100);
 
+  const payableAmount = grandTotalPaise / 100 - walletUse;
+
+  const balanceAmount = Math.max(payableAmount - Number(paidAmount || 0), 0);
+
+  const advanceAmount = Math.max(Number(paidAmount || 0) - payableAmount, 0);
+
   /* =====================
      Render
   ===================== */
@@ -315,7 +432,16 @@ export default function CreateOrder() {
     <div className={styles.container}>
       <Toaster position="top-right" />
 
-      <h2 className={styles.title}>Create Order</h2>
+      <div className={styles["orders-header"]}>
+        <h2 className={styles.title}>Create Order </h2>
+
+        <button
+          className={styles.btnDashboard}
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       {/* ================= CUSTOMER ================= */}
       <h3 className={styles.sectionTitle}>Customer</h3>
@@ -328,6 +454,7 @@ export default function CreateOrder() {
               placeholder="Search customer..."
               value={customerQuery}
               onChange={(e) => searchCustomers(e.target.value)}
+              autoFocus
             />
 
             {customerQuery && (
@@ -485,7 +612,6 @@ export default function CreateOrder() {
               setFilteredProducts([]);
             }
           }}
-          autoFocus
         />
 
         {productQuery && (
@@ -627,48 +753,6 @@ export default function CreateOrder() {
           <span>₹{toRupees(calculatedTotalPaise - subtotalPaise)}</span>
         </div>
 
-        <div className={styles.summaryRow}>
-          <span>Full Paid</span>
-
-          <label className={styles.switch}>
-            <input
-              type="checkbox"
-              checked={fullPaid}
-              onChange={(e) => {
-                setFullPaid(e.target.checked);
-                if (!e.target.checked) setPaidAmount("");
-              }}
-            />
-            <span className={styles.slider}></span>
-          </label>
-        </div>
-
-        {/* Small helper text */}
-        <p className={styles.smallHint}>Off: extra goes to wallet</p>
-
-        <div className={styles.summaryRow}>
-          <span>Paid Amount</span>
-          <input
-            type="number"
-            value={paidAmount}
-            disabled={fullPaid}
-            onChange={(e) => setPaidAmount(e.target.value)}
-          />
-        </div>
-
-        {Number(paidAmount) > grandTotalPaise / 100 - walletUse && (
-          <div className={styles.summaryRow} style={{ color: "green" }}>
-            <span>Advance</span>
-            <span>
-              ₹
-              {(
-                Number(paidAmount) -
-                (grandTotalPaise / 100 - walletUse)
-              ).toFixed(2)}
-            </span>
-          </div>
-        )}
-
         {discountPaise > 0 && (
           <div className={styles.summaryRow} style={{ color: "green" }}>
             Discount −₹{toRupees(discountPaise)}
@@ -719,6 +803,80 @@ export default function CreateOrder() {
         </div>
 
         <div className={styles.summaryRow}>
+          <span>Full Paid</span>
+
+          <label className={styles.switch}>
+            <input
+              type="checkbox"
+              checked={fullPaid}
+              onChange={(e) => {
+                setFullPaid(e.target.checked);
+                if (!e.target.checked) setPaidAmount("");
+              }}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+
+        {/* Small helper text */}
+        <p className={styles.smallHint}>Off: extra goes to wallet</p>
+
+        <div className={styles.summaryRow}>
+          <span>Paid Amount</span>
+          <input
+            type="number"
+            value={paidAmount}
+            disabled={fullPaid}
+            onChange={(e) => setPaidAmount(e.target.value)}
+          />
+        </div>
+
+        {balanceAmount > 0 && (
+          <div
+            className={styles.summaryRow}
+            style={{
+              color: "#dc2626",
+              fontWeight: "700",
+              background: "#fef2f2",
+              padding: "8px",
+              borderRadius: "6px",
+            }}
+          >
+            <span>Balance</span>
+            <span>₹{balanceAmount.toFixed(2)}</span>
+          </div>
+        )}
+
+        {advanceAmount > 0 && (
+          <div
+            className={styles.summaryRow}
+            style={{
+              color: "#16a34a",
+              fontWeight: "700",
+              background: "#f0fdf4",
+              padding: "8px",
+              borderRadius: "6px",
+            }}
+          >
+            <span>Advance</span>
+            <span>₹{advanceAmount.toFixed(2)}</span>
+          </div>
+        )}
+
+        {/* {Number(paidAmount) > grandTotalPaise / 100 - walletUse && (
+          <div className={styles.summaryRow} style={{ color: "green" }}>
+            <span>Advance</span>
+            <span>
+              ₹
+              {(
+                Number(paidAmount) -
+                (grandTotalPaise / 100 - walletUse)
+              ).toFixed(2)}
+            </span>
+          </div>
+        )} */}
+
+        <div className={styles.summaryRow}>
           <span className={styles.summaryStrong}>Final Total</span>
           {/* <span className={styles.summaryStrong}>
             ₹{toRupees(grandTotalPaise)}
@@ -753,13 +911,30 @@ export default function CreateOrder() {
           </div>
         </div>
 
-        <button
+        {/* <button
           className={styles.primaryBtn}
           onClick={submitOrder}
           disabled={loading}
         >
           {loading ? "Creating..." : "Create Order"}
-        </button>
+        </button> */}
+
+        <div className={styles.actionButtons}>
+          <button
+            className={styles.cancelBtn}
+            onClick={() => setShowCancelModal(true)}
+          >
+            Cancel Order
+          </button>
+
+          <button
+            className={styles.primaryBtn}
+            onClick={submitOrder}
+            disabled={loading}
+          >
+            {loading ? "Creating..." : "Create Order"}
+          </button>
+        </div>
       </div>
       {showSignModal && (
         <div className={styles.signModal}>
@@ -780,6 +955,38 @@ export default function CreateOrder() {
             >
               Cancel
             </button>
+          </div>
+        </div>
+      )}
+      {showCancelModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <h3>Cancel Order?</h3>
+
+            <p>
+              All customer, cart, payment, wallet and signature data will be
+              removed.
+            </p>
+
+            <div className={styles.modalActions}>
+              <button
+                className={styles.modalCancel}
+                onClick={() => setShowCancelModal(false)}
+              >
+                Keep Order
+              </button>
+
+              <button
+                className={styles.modalConfirm}
+                onClick={() => {
+                  resetForm();
+                  setShowCancelModal(false);
+                  toast.success("Order cancelled");
+                }}
+              >
+                Yes, Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

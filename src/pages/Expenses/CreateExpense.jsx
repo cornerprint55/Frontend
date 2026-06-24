@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { authFetch } from "../../utils/authFetch"; // adjust path if needed
 import styles from "./CreateExpense.module.css";
+import { useNavigate } from "react-router-dom";
 
 import { BACKEND_URL } from "../../config";
 
@@ -14,6 +15,7 @@ const CreateExpense = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -59,7 +61,16 @@ const CreateExpense = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Create Expense</h2>
+      <div className={styles["orders-header"]}>
+        <h2 className={styles.title}>Add Expense </h2>
+
+        <button
+          className={styles.btnDashboard}
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <input

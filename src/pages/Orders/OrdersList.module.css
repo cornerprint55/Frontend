@@ -248,6 +248,11 @@
   margin-top: 0.4rem;
 }
 
+.order-action-two {
+  display: flex;
+  gap: 0.6rem;
+}
+
 /* ===============================
    BUTTONS
 ================================ */
@@ -318,6 +323,7 @@
 
   .order-actions {
     width: 100%;
+    flex-direction: column;
   }
 
   .order-actions button {

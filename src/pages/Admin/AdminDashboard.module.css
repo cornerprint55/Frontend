@@ -74,7 +74,7 @@
   background: white;
   border: 1px solid var(--border);
   color: var(--muted);
-  padding: 8px 14px;
+  padding: 6px 10px;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -143,6 +143,10 @@
 @media (min-width: 640px) {
   .admin-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn-logout {
+    padding: 10px 16px;
   }
 }
 

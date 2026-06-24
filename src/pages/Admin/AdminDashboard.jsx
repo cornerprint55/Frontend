@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { BACKEND_URL } from "../../config";
 import styles from "./AdminDashboard.module.css";
+import { FiLogOut } from "react-icons/fi";
 
 import { useRef } from "react";
 import notificationSound from "../../assets/notification.mp3";
@@ -159,8 +160,12 @@ const AdminDashboard = () => {
           <h2>Print Corner</h2>
         </div>
 
-        <button className={styles["btn-logout"]} onClick={handleLogout}>
-          Logout
+        <button
+          className={styles["btn-logout"]}
+          onClick={handleLogout}
+          title="Logout"
+        >
+          <FiLogOut size={20} />
         </button>
       </div>
 

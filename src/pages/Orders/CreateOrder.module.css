@@ -22,7 +22,6 @@
   font-weight: 800;
   margin-bottom: 2rem;
   color: #0f172a;
-  border-bottom: 1px solid #e5e7eb;
   padding-bottom: 0.8rem;
 }
 
@@ -771,7 +770,7 @@
   border-radius: 10px;
   border: none;
   background: #ef4444;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 .signaturePreview {
   margin-top: 12px;
@@ -841,6 +840,127 @@
   padding: 12px;
   border-radius: 12px;
   border: none;
-  background: #f1f5f9;
+  background: #df4141;
   font-weight: 600;
+}
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  margin-top: 0.5rem;
+  color: #1f2937;
+  letter-spacing: 0.3px;
+}
+
+/* ===============================
+   DASHBOARD BUTTON
+================================ */
+.btnDashboard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnDashboard:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.cancelBtn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cancelBtn {
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 1rem;
+  border-radius: 999px;
+  border: none;
+  background: red;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cancelBtn:hover {
+  transform: translateY(-1px);
+}
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalBox {
+  width: 90%;
+  max-width: 420px;
+
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modalBox h3 {
+  margin: 0 0 12px;
+  color: #111827;
+}
+
+.modalBox p {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.modalCancel,
+.modalConfirm {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.modalCancel {
+  background: #f3f4f6;
+}
+
+.modalConfirm {
+  background: #dc2626;
+  color: white;
 }

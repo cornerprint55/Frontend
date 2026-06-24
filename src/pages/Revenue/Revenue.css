@@ -21,7 +21,6 @@
   font-weight: 800;
   margin-bottom: 1.5rem;
   color: #1f2937;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 /* ============================= */
@@ -247,4 +246,21 @@
 /* Kill mobile tap highlight */
 * {
   -webkit-tap-highlight-color: transparent;
+}
+.orders-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  margin-top: 0.75rem !important;
+  color: #1f2937;
+  letter-spacing: 0.3px;
 }

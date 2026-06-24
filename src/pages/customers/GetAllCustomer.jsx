@@ -362,13 +362,22 @@ const GetAllCustomer = () => {
       <div className={styles.customerHeader}>
         <h2>Customers</h2>
 
-        <button
-          className={styles.btnAddCustomer}
-          disabled={Boolean(editingId)}
-          onClick={() => navigate("/addcustomer")}
-        >
-          + Add Customer
-        </button>
+        <div>
+          <button
+            className={styles.btnAddCustomer}
+            disabled={Boolean(editingId)}
+            onClick={() => navigate("/addcustomer")}
+          >
+            + Add Customer
+          </button>
+
+          <button
+            className={styles.btnDashboard}
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            Dashboard
+          </button>
+        </div>
       </div>
 
       <div className={styles.searchWrapper}>

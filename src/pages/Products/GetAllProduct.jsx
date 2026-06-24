@@ -299,27 +299,35 @@ const GetAllProduct = () => {
     <div className={styles.productsContainer}>
       <div className={styles.productsHeader}>
         <h2>Products</h2>
+        <div>
+          <button
+            className={styles.btnAddProduct}
+            disabled={Boolean(editingId)}
+            onClick={() => navigate("/addproduct")}
+          >
+            + Add Product
+          </button>
 
-        <button
-          className={styles.btnAddProduct}
-          disabled={Boolean(editingId)}
-          onClick={() => navigate("/addproduct")}
-        >
-          + Add Product
-        </button>
+          <button
+            className={styles.btnDashboard}
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            Dashboard
+          </button>
+        </div>
       </div>
 
       {lowStockProducts.length > 0 && (
         <div className={styles.lowStockBar}>
           <span className={styles.lowStockAlert}>
-            ⚠️ Low Stock: {lowStockProducts.length}
+            Low Stock: {lowStockProducts.length}
           </span>
 
           <button
             className={styles.btnLowStock}
             onClick={() => setShowLowStockOnly((v) => !v)}
           >
-            {showLowStockOnly ? "Show All" : "View Low Stock"}
+            {showLowStockOnly ? "All" : "View"}
           </button>
         </div>
       )}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { authFetch } from "../../utils/authFetch";
 import "./RegisterPage.css";
 import { BACKEND_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -15,10 +16,10 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-
+  const navigate = useNavigate();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -30,6 +31,8 @@ const RegisterPage = () => {
   // ✅ Fetch all users
   const fetchUsers = async () => {
     try {
+      setLoadingUsers(true);
+
       const res = await authFetch(`${BACKEND_URL}/user`);
       const data = await res.json();
 
@@ -38,6 +41,8 @@ const RegisterPage = () => {
       setUsers(data.users);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoadingUsers(false);
     }
   };
 
@@ -135,7 +140,16 @@ const RegisterPage = () => {
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
+      <div className="orders-header">
+        <h2 className="title">Create User</h2>
+
+        <button
+          className="btnDashboard"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} className="register-form">
         <input
@@ -177,7 +191,9 @@ const RegisterPage = () => {
       <div className="users-list">
         <h3>All Users</h3>
 
-        {users.length === 0 ? (
+        {loadingUsers ? (
+          <p className="loading-text">Loading users...</p>
+        ) : users.length === 0 ? (
           <p>No users found</p>
         ) : (
           <table>

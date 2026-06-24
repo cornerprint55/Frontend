@@ -36,6 +36,7 @@
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
+  margin-right: 16px;
 }
 
 .btn-add-expense:hover:not(:disabled) {
@@ -327,7 +328,7 @@
 /* ---------- Mobile ---------- */
 @media (max-width: 600px) {
   .expense-header {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
 
@@ -337,6 +338,7 @@
 
   .expense-header h2 {
     font-size: 1.6rem;
+    margin-bottom: 0.75rem !important;
     line-height: 1.2;
     margin: 0;
   }
@@ -347,6 +349,7 @@
     font-size: 0.8rem;
     white-space: nowrap; /* prevents wrap */
     flex-shrink: 0;
+    margin-right: 8px;
   }
 
   .expense-card {

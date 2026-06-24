@@ -4,6 +4,7 @@ import { authFetch } from "../../utils/authFetch";
 import Modal from "react-modal";
 import "./AddCustomers.css";
 import { BACKEND_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -13,6 +14,7 @@ const AddCustomers = () => {
   const [excelFile, setExcelFile] = useState(null);
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
 
@@ -78,6 +80,7 @@ const AddCustomers = () => {
         throw new Error(result.msg || "Something went wrong");
       }
 
+       reset();
       showModal(`Customer "${result.custName}" created successfully`);
     } catch (err) {
       console.error(err);
@@ -89,7 +92,16 @@ const AddCustomers = () => {
 
   return (
     <div className="add-customer-container">
-      <h2>Add Customer</h2>
+      <div className="orders-header">
+        <h2 className="title">Add Customer</h2>
+
+        <button
+          className="btnDashboard"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">

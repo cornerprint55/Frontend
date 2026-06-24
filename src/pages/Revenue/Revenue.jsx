@@ -4,6 +4,7 @@ import "./Revenue.css";
 import { BACKEND_URL } from "../../config";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { useNavigate } from "react-router-dom";
 
 const Revenue = () => {
   const [revenue, setRevenue] = useState([]);
@@ -16,6 +17,7 @@ const Revenue = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [viewMode, setViewMode] = useState("all"); // all | filter
+  const navigate = useNavigate();
 
   const formatINR = (amount = 0) =>
     new Intl.NumberFormat("en-IN", {
@@ -152,7 +154,16 @@ const Revenue = () => {
 
   return (
     <div className="revenue-container">
-      <h2>Revenue</h2>
+      <div className="orders-headers">
+        <h2 className="title">Revenue</h2>
+
+        <button
+          className="btnDashboard"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       {/* 📅 Date Filter */}
       <div className="date-filter">

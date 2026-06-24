@@ -184,6 +184,8 @@ export default function OutstandingCustomers() {
   const [showBulkPay, setShowBulkPay] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     loadCustomers();
   }, []);
@@ -560,15 +562,15 @@ window.onload = function() {
       </div>
 
       ${
-    order.signature
-      ? `
+        order.signature
+          ? `
       <div class="signature-box">
         <img src="${order.signature}" />
         <p>Authorized Signature</p>
       </div>
     `
-      : ""
-  }
+          : ""
+      }
 
     </div>
   `;
@@ -812,7 +814,16 @@ window.onload = function() {
 
   return (
     <div className="outstanding-container">
-      <h2 className="heading">Outstanding Customers</h2>
+      <div className="orders-header">
+        <h2 className="title">Customers</h2>
+
+        <button
+          className="btnDashboard"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <div className="search-wrapper">
         <input
@@ -849,36 +860,40 @@ window.onload = function() {
               <p className="customer-balance">₹{formatINR(c.balance)}</p>
 
               <div className="customer-actions">
-                <button
-                  className="btn-view"
-                  onClick={() => setSelectedCustomer(c)}
-                >
-                  View Orders
-                </button>
+                <div className="customer-action-two">
+                  <button
+                    className="btn-view"
+                    onClick={() => setSelectedCustomer(c)}
+                  >
+                    View Orders
+                  </button>
 
-                <button
-                  className="btn-bulk-pay"
-                  onClick={() => {
-                    setSelectedCustomer(c);
-                    setShowBulkPay(true);
-                  }}
-                >
-                  Bulk Pay
-                </button>
+                  <button
+                    className="btn-bulk-pay"
+                    onClick={() => {
+                      setSelectedCustomer(c);
+                      setShowBulkPay(true);
+                    }}
+                  >
+                    Bulk Pay
+                  </button>
+                </div>
 
-                <button
-                  className="btn-print"
-                  onClick={() => handlePrintCustomer(c)}
-                >
-                  Print
-                </button>
+                <div className="customer-action-two">
+                  <button
+                    className="btn-print"
+                    onClick={() => handlePrintCustomer(c)}
+                  >
+                    Print
+                  </button>
 
-                <button
-                  className="btn-print"
-                  onClick={() => handlePrintFullStatement(c)}
-                >
-                  Print Full Bill
-                </button>
+                  <button
+                    className="btn-print"
+                    onClick={() => handlePrintFullStatement(c)}
+                  >
+                    Print Full
+                  </button>
+                </div>
               </div>
             </div>
           </div>

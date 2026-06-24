@@ -1,6 +1,12 @@
 // App.js
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { LoaderProvider } from "./context/LoaderContext";
 
 // Pages
@@ -41,6 +47,9 @@ function App() {
       {/* 🔥 GLOBAL SPLASH / SERVER WAKE LOADER */}
       <LoaderProvider>
         <Routes>
+
+            <Route path="/" element={<Navigate to="/login" replace />} />
+
           {/* ---------- Public Routes ---------- */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/userorders" element={<Upload />} />
@@ -185,7 +194,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
+        
       </LoaderProvider>
     </BrowserRouter>
   );

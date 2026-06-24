@@ -18,11 +18,11 @@
 }
 
 .productsHeader h2 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #1f2937;
+  margin-bottom: 0.25rem;
 }
-
 
 /* ---------- Search ---------- */
 .searchInput {
@@ -294,7 +294,7 @@
   }
 
   .productActions {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   .productsHeader {
@@ -318,11 +318,27 @@
 
 @media (max-width: 600px) {
   .productsHeader {
-    flex-direction: row; /* keep justify-between */
+    flex-direction: column; /* keep justify-between */
     align-items: center;
   }
 
   .btnAddProduct {
     width: auto;
   }
+}
+.btnDashboard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 16px;
+}
+
+.btnDashboard:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
 }

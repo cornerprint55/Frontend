@@ -34,6 +34,7 @@
   font-size: 2rem;
   font-weight: 800;
   margin: 0;
+  margin-bottom: 0.5rem;
   color: #1f2937;
 }
 
@@ -307,7 +308,7 @@
   }
 
   .customerHeader {
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
   }
@@ -478,4 +479,21 @@
 .walletSection {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding-top: 0.6rem;
+}
+
+.btnDashboard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 16px;
+}
+
+.btnDashboard:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
 }

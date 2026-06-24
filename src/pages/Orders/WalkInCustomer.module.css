@@ -513,3 +513,19 @@ button:disabled {
     font-size: 0.7rem;
   }
 }
+
+.btnDashboard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnDashboard:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
